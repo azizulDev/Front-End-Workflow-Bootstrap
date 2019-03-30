@@ -2,6 +2,7 @@ let gulp = require('gulp'),
 watch = require('gulp-watch'),
 sass = require('gulp-sass'),
 autoPrefixer = require('gulp-autoprefixer'),
+webpack = require('webpack'),
 browserSync = require('browser-sync').create()
 
 
@@ -40,6 +41,24 @@ gulp.task('bootstrapCssInject', gulp.series('bootstrapSassToCss', () => {
 }))
 
 
+// JS task with Webpack
+gulp.task('scripts', (callback)=> {
+  webpack(require('./webpack.config.js'), (err, stats) => {
+    if(err){
+      console.log(err.toString())
+    }
+    console.log(stats.toString())
+    callback()
+  })
+})
+
+
+// JS refresh
+gulp.task('scriptsRefresh', gulp.series('scripts', () => {
+  browserSync.reload()
+}))
+
+
 
 // Watch task
 gulp.task('watch', () => {
@@ -54,4 +73,5 @@ gulp.task('watch', () => {
   watch('./app/index.html').on('change', gulp.series('html'))
   watch('./app/assets/sass/custom/**/*.scss').on('change', gulp.series('cssInject'))
   watch('./app/assets/sass/bootstrap/**/*.scss').on('change', gulp.series('bootstrapCssInject'))
+  watch('./app/assets/scripts/**/*.js').on('change', gulp.series('scriptsRefresh'))
 })
