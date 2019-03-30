@@ -2,6 +2,7 @@
   "name": "front-end-workflow-bootstrap",
   "version": "1.0.0",
   "devDependencies": {
+    "browser-sync": "^2.26.3",
     "gulp": "^4.0.0",
     "gulp-watch": "^5.0.1"
   }
