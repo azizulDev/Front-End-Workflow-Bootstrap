@@ -25,6 +25,21 @@ gulp.task('cssInject', gulp.series('sassToCss', () => {
 }))
 
 
+// Bootstrap Sass to Css
+gulp.task('bootstrapSassToCss', () => {
+  return gulp.src('./app/assets/sass/bootstrap/bootstrap.scss')
+  .pipe(sass())
+  .pipe(gulp.dest('./app/temp/css'))
+})
+
+
+// Bootstrap Css Inject
+gulp.task('bootstrapCssInject', gulp.series('bootstrapSassToCss', () => {
+  return gulp.src('./app/temp/css/bootstrap.css')
+  .pipe(browserSync.stream())
+}))
+
+
 
 // Watch task
 gulp.task('watch', () => {
@@ -38,4 +53,5 @@ gulp.task('watch', () => {
 
   watch('./app/index.html').on('change', gulp.series('html'))
   watch('./app/assets/sass/custom/**/*.scss').on('change', gulp.series('cssInject'))
+  watch('./app/assets/sass/bootstrap/**/*.scss').on('change', gulp.series('bootstrapCssInject'))
 })
