@@ -1,6 +1,7 @@
 let gulp = require('gulp'),
 watch = require('gulp-watch'),
 sass = require('gulp-sass'),
+autoPrefixer = require('gulp-autoprefixer'),
 browserSync = require('browser-sync').create()
 
 
@@ -13,6 +14,7 @@ gulp.task('html', () => {
 gulp.task('sassToCss', () => {
   return gulp.src('./app/assets/sass/custom/style.scss')
   .pipe(sass())
+  .pipe(autoPrefixer())
   .pipe(gulp.dest('./app/temp/css'))
 })
 
